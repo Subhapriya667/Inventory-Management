@@ -20,13 +20,13 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(ProductExistException.class)
-	public ResponseEntity<?> productNotFoundException(ProductExistException ex) {
+	public ResponseEntity<?> productAlreadyExistsException(ProductExistException ex) {
 		ErrorInformation errorDetails = new ErrorInformation(new Date(), ex.message, null);
 		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<?> globleExcpetionHandler(Exception ex, WebRequest request) {
+	public ResponseEntity<?> globalExceptionHandler(Exception ex, WebRequest request) {
 		ErrorInformation errorDetails = new ErrorInformation(new Date(), ex.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
