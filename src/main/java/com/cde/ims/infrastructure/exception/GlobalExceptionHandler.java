@@ -14,13 +14,13 @@ import com.cde.ims.domain.model.ErrorInformation;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(ProductNotFoundException.class)
-	public ResponseEntity<?> orderNotFoundException(ProductNotFoundException ex) {
+	public ResponseEntity<?> productNotFoundException(ProductNotFoundException ex) {
 		ErrorInformation errorDetails = new ErrorInformation(new Date(), ex.message, null);
 		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(ProductExistException.class)
-	public ResponseEntity<?> orderExistException(ProductExistException ex) {
+	public ResponseEntity<?> productNotFoundException(ProductExistException ex) {
 		ErrorInformation errorDetails = new ErrorInformation(new Date(), ex.message, null);
 		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
