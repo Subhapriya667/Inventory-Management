@@ -67,7 +67,7 @@ public class ProductController implements ProductApi {
 	@Override
 	public ResponseEntity<Product> createProduct(@ApiParam(value = "Product details", required = true) @Valid @RequestBody Product product) throws ProductExistException {
 		Product productResponse = productService.createProduct(product);
-		logger.info("Product Created Successfully : ", product);
+		logger.info("Product Created Successfully :: {}", product);
 		return new ResponseEntity<>(productResponse, HttpStatus.OK);
 	}
 
@@ -83,7 +83,7 @@ public class ProductController implements ProductApi {
 			  true) @Valid @RequestParam(value = "productId", required = true) String
 			  productId) throws ProductNotFoundException {
 		Product productResponse = productService.getProduct(productId);
-		logger.info("Product Retrieved Successfully : ", productResponse); 
+		logger.info("Product Retrieved Successfully :: {}", productResponse); 
 		return new ResponseEntity<>(productResponse, HttpStatus.OK);
 	}
 
@@ -97,7 +97,7 @@ public class ProductController implements ProductApi {
 	@Override
 	public ResponseEntity<Product> updateProduct(@ApiParam(value = "Product details", required = true) @Valid @RequestBody Product product) throws ProductNotFoundException {
 		Product productResponse = productService.updateProduct(product);
-		logger.info("Product Updated Successfully : ", product);
+		logger.info("Product Updated Successfully : {}", product);
 		return new ResponseEntity<>(productResponse, HttpStatus.OK);
 	}
 
@@ -110,9 +110,8 @@ public class ProductController implements ProductApi {
 	 */
 	@Override
 	public ResponseEntity<String> deleteProduct(@NotNull @ApiParam(value = "ProductId", required = true) @Valid @RequestParam(value = "productId", required = true) String productId) throws ProductNotFoundException {
-		logger.info("Process to delete the pro");
 		String productResponse = productService.deleteProduct(productId);
-		logger.info("Product Deleted Successfully for the id : ", productId);
+		logger.info("Product Deleted Successfully :: {}", productId);
 		return new ResponseEntity<>(productResponse, HttpStatus.OK);
 	}	
 

@@ -8,6 +8,7 @@ class InventoryManagementApplicationTests {
 
 	@Test
 	void contextLoads() {
+		
 	}
 
 }

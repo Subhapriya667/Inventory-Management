@@ -16,7 +16,6 @@ import com.cde.ims.domain.entity.Product;
 import com.cde.ims.domain.model.ProductsList;
 import com.cde.ims.infrastructure.exception.ProductExistException;
 import com.cde.ims.infrastructure.exception.ProductNotFoundException;
-import com.sun.xml.bind.v2.TODO;
 
 /**
  * 
@@ -57,7 +56,7 @@ public class ProductService {
 	@Cacheable(value = "products")
 	public ProductsList getAllProducts() {
 		List<Product> productsList = productRepository.findAll();
-		logger.info("Retrieved all products :: ", productsList);
+		logger.info("Retrieved all products :: {}", productsList);
 		return new ProductsList().productList(productsList);
 	}
 	//@Cacheput used to store products data in local which create newly.
@@ -67,11 +66,11 @@ public class ProductService {
 		// check if product is already exists. 
 		// if yes, throws an exception or else save as new product in DB.
 		if (productObject.isPresent()) {
-			logger.error("Product already exist : ", productRequest.getProductId());
+			logger.error("Product already exist for the product id :: {}", productRequest.getProductId());
 			throw new ProductExistException(String.valueOf(productRequest.getProductId()));
 		} else {
 			productRepository.save(productRequest);
-			logger.info("Successfully Created the Product:: ", productRequest);
+			logger.info("Successfully Created the Product :: {} ", productRequest);
 		}
 		return productRequest;
 	}
@@ -84,11 +83,10 @@ public class ProductService {
 				// if yes, continue the process or else throw product not found exception.
 		if (productObject.isPresent()) {
 			product = productObject.get();
-			logger.info("Successfully Retrieved Product for the Product id " + productId, productId);
+			logger.info("Successfully Retrieved Product for the Product id :: {}", productId);
 		} else {
-			logger.error("Product for the id "+productId +" is not found", productId);
+			logger.error("Product not found for the product id :: {}", productId);
 			 throw new ProductNotFoundException(productId); 
-			//TODO - why no try block?
 		}
 		return product;
 	}
@@ -100,9 +98,9 @@ public class ProductService {
 			// if yes, continue the process to update product in DB or else throw product not found exception.
 		if (productObject.isPresent()) {
 			productRepository.save(productRequest);
-			logger.info("Successfully updated the Product : ", productRequest);
+			logger.info("Successfully updated the Product :: {}", productRequest);
 		} else {
-			logger.error("Product for the id "+productRequest.getProductId() +"not found", productRequest.getProductId());
+			logger.error("Product not found for the id :: {}", productRequest.getProductId());
 			throw new ProductNotFoundException(String.valueOf(productRequest.getProductId()));
 		}
 		return productRequest;
@@ -117,7 +115,7 @@ public class ProductService {
 			productRepository.deleteById(Long.valueOf(productId));
 			logger.info("Successfully Deleted the Product :: {}", productId);
 		} else {
-			logger.error("Product for the id "+ productId +"not found", productId);
+			logger.error("Product not found for the id :: {}", productId);
 			throw new ProductNotFoundException(String.valueOf(productId));
 		}
 		return "Product Deleted Successfully!";
