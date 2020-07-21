@@ -4,10 +4,9 @@ public class ProductExistException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	String message = "Product is already exist for the id : {}";
-	String productId;
+	String message = "Product is already exist for the id : ";
 
-	public ProductExistException(String productrId) {
+	public ProductExistException(String productId) {
 		super();
 		this.message = message + productId;
 	}

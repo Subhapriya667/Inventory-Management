@@ -4,8 +4,7 @@ public class ProductNotFoundException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	String message = "Product not found for the given id: {}";
-	String productId;
+	String message = "Product not found for the given id : ";
 
 	public ProductNotFoundException(String productId) {
 		super();
