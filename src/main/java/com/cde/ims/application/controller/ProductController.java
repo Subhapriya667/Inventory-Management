@@ -56,14 +56,6 @@ public class ProductController implements ProductApi {
 		this.productService = productService;
 	}
 
-	/**
-	 * Method to create new product
-	 * 
-	 * @param product
-	 *            Model to create product 
-	 * @return
-	 */
-
 	@Override
 	public ResponseEntity<Product> createProduct(@ApiParam(value = "Product details", required = true) @Valid @RequestBody Product product) throws ProductExistException {
 		Product productResponse = productService.createProduct(product);
@@ -71,13 +63,6 @@ public class ProductController implements ProductApi {
 		return new ResponseEntity<>(productResponse, HttpStatus.OK);
 	}
 
-	/**
-	 * Method to get product using product id
-	 * 
-	 * @param productId
-	 *            Id of the product
-	 * @return
-	 */
 	@Override
 	public ResponseEntity<Product> getProductById(@NotNull @ApiParam(value = "ProductId", required =
 			  true) @Valid @RequestParam(value = "productId", required = true) String
@@ -87,27 +72,13 @@ public class ProductController implements ProductApi {
 		return new ResponseEntity<>(productResponse, HttpStatus.OK);
 	}
 
-	/**
-	 * Method to update values of the existing product
-	 * 
-	 * @param product
-	 *            Model to update product
-	 * @return
-	 */
 	@Override
 	public ResponseEntity<Product> updateProduct(@ApiParam(value = "Product details", required = true) @Valid @RequestBody Product product) throws ProductNotFoundException {
 		Product productResponse = productService.updateProduct(product);
-		logger.info("Product Updated Successfully : {}", product);
+		logger.info("Product Updated Successfully :: {}", product);
 		return new ResponseEntity<>(productResponse, HttpStatus.OK);
 	}
 
-	/**
-	 * Method to delete product using product id
-	 * 
-	 * @param productId
-	 *            Id of the product
-	 * @return
-	 */
 	@Override
 	public ResponseEntity<String> deleteProduct(@NotNull @ApiParam(value = "ProductId", required = true) @Valid @RequestParam(value = "productId", required = true) String productId) throws ProductNotFoundException {
 		String productResponse = productService.deleteProduct(productId);
@@ -115,19 +86,11 @@ public class ProductController implements ProductApi {
 		return new ResponseEntity<>(productResponse, HttpStatus.OK);
 	}	
 
-	/**
-	 * Method to get all products
-	 * 
-	 * 
-	 * @return
-	 */
 	@Override
 	public ResponseEntity<ProductsList> getAllProducts() {
 		ProductsList productsList = productService.getAllProducts();
 		logger.info("successfully retrieved all products :: {}", productsList);
 		return new ResponseEntity<>(productsList, HttpStatus.OK);
-	}	
-
-	
+	}
 	
 }

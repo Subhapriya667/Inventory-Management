@@ -46,7 +46,7 @@ import io.swagger.annotations.ApiResponses;
  * </pre>
  */
 
-@Api(value = "Inventory Management System", description = "Operations for product api")
+@Api(value = "Inventory Management System")
 @RequestMapping("/api/v1")
 public interface ProductApi {
 

@@ -60,5 +60,5 @@ public class FileUploadService {
 		PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, uniqueFileName, file);
 		amazonS3.putObject(putObjectRequest);
 	}
-	
+
 }

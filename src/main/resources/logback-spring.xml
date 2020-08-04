@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <springProfile name="default">
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="dev">
+
+        <appender name="CLOUDWATCH" class="com.j256.cloudwatchlogbackappender.CloudWatchAppender">
+	<region>us-east-1</region>
+	<logGroup>subha-ims-log-group</logGroup>
+	<logStream>subha-ims-logstream</logStream>
+	<layout>
+		<!-- possible layout pattern -->
+		<pattern>[%thread] %level %logger{20} - %msg%n%xThrowable</pattern>
+	</layout>
+</appender>
+	<logger name="org.springframework" level="INFO"/>
+    <logger name="com.cde.ims" level="INFO"/>
+    <root level="ERROR">
+            <appender-ref ref="CLOUDWATCH"/>
+        </root>
+    </springProfile>
+
+</configuration>

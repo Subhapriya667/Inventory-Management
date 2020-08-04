@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(value = "Inventory Management System", description = "Operations for Upload File to S3 Bucket")
+@Api(value = "Inventory Management System" )
 @RequestMapping("/api/v1")
 public interface FileUploadApi {
 	

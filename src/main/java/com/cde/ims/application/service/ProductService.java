@@ -42,8 +42,8 @@ import com.cde.ims.infrastructure.exception.ProductNotFoundException;
 @Service
 public class ProductService {
 	
-	/** Inject Logger **/
 	Logger logger = LoggerFactory.getLogger(ProductService.class);
+	private static final String ERRORMSG = "Product not found {}";
 	
 	private final ProductRepository productRepository;
 
@@ -52,21 +52,18 @@ public class ProductService {
 		this.productRepository = productRepository;
 	}
 	
-	//Caching using redis cache
 	@Cacheable(value = "products")
 	public ProductsList getAllProducts() {
 		List<Product> productsList = productRepository.findAll();
 		logger.info("Retrieved all products :: {}", productsList);
 		return new ProductsList().productList(productsList);
 	}
-	//@Cacheput used to store products data in local which create newly.
+	
 	@CachePut(value = "products", key = "#productRequest")
 	public Product createProduct(Product productRequest) throws ProductExistException {
 		Optional<Product> productObject = productRepository.findById(productRequest.getProductId());
-		// check if product is already exists. 
-		// if yes, throws an exception or else save as new product in DB.
 		if (productObject.isPresent()) {
-			logger.error("Product already exist for the product id :: {}", productRequest.getProductId());
+			logger.error("Product already exist for the product {}", productRequest.getProductId());
 			throw new ProductExistException(String.valueOf(productRequest.getProductId()));
 		} else {
 			productRepository.save(productRequest);
@@ -79,13 +76,11 @@ public class ProductService {
 	public Product getProduct(String productId) throws ProductNotFoundException {
 		Product product = null;
 		Optional<Product> productObject = productRepository.findById(Long.valueOf(productId));
-		// check if product is already exists. 
-				// if yes, continue the process or else throw product not found exception.
 		if (productObject.isPresent()) {
 			product = productObject.get();
-			logger.info("Successfully Retrieved Product for the Product id :: {}", productId);
+			logger.info("Successfully Retrieved Product for the Product id{}", productId);
 		} else {
-			logger.error("Product not found for the product id :: {}", productId);
+			logger.error(ERRORMSG, productId);
 			 throw new ProductNotFoundException(productId); 
 		}
 		return product;
@@ -94,13 +89,11 @@ public class ProductService {
 	@CachePut(value = "products", key = "#productRequest")
 	public Product updateProduct(Product productRequest) throws ProductNotFoundException {
 		Optional<Product> productObject = productRepository.findById(productRequest.getProductId());
-		// check if product is already exists. 
-			// if yes, continue the process to update product in DB or else throw product not found exception.
 		if (productObject.isPresent()) {
 			productRepository.save(productRequest);
 			logger.info("Successfully updated the Product :: {}", productRequest);
 		} else {
-			logger.error("Product not found for the id :: {}", productRequest.getProductId());
+			logger.error(ERRORMSG, productRequest.getProductId());
 			throw new ProductNotFoundException(String.valueOf(productRequest.getProductId()));
 		}
 		return productRequest;
@@ -109,13 +102,11 @@ public class ProductService {
 	@CacheEvict(value = "products", key = "#productId")
 	public String deleteProduct(String productId) throws ProductNotFoundException {
 		Optional<Product> productObject = productRepository.findById(Long.valueOf(productId));
-		// check if product is already exists. 
-			// if yes, continue the process to delete the product in DB or else throw product not found exception.
 		if (productObject.isPresent()) {
 			productRepository.deleteById(Long.valueOf(productId));
 			logger.info("Successfully Deleted the Product :: {}", productId);
 		} else {
-			logger.error("Product not found for the id :: {}", productId);
+			logger.error(ERRORMSG, productId);
 			throw new ProductNotFoundException(String.valueOf(productId));
 		}
 		return "Product Deleted Successfully!";
